@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <string>
 
+// Initialise the structs for initial coordinates, the centre of the squares and the players
 Coord coord = {0, 0};
 Square square1 = {6, 25, 'b'};
 Square square2 = {6, 35, 'b'};
@@ -16,8 +17,8 @@ Square square9 = {14, 45, 'b'};
 Players player1 = {1, 0};
 Players player2 = {2, 0};
 
-
-void startGame()
+// Start nCurses up.
+void initNcurses()
 {
     initscr();
     cbreak();
@@ -28,6 +29,7 @@ void endGame(int x)
     clearScreen();
     attron(A_BOLD);
     mvprintw(10, 35, "GAME OVER.");
+    // Celebrate the winner or none at all if needed.
     if(x == 1)
         {
             attron(A_UNDERLINE);
@@ -50,6 +52,7 @@ void endGame(int x)
             mvprintw(12, 38, "BOO!");
             attroff(A_DIM);
         }
+    // I don't think this'll ever trigger but it's better safe then sorry.
     else
     {
         mvprintw(10, 35, "This message shouldn't ever be seen. What hath thou done?!?");
@@ -59,6 +62,7 @@ void endGame(int x)
     getch();
     endwin();
 }
+// Draw the playing grid.
 
 void drawGrid()
 {
@@ -70,8 +74,11 @@ void drawGrid()
     std::string across{"-----------------------------"};
     const char* c_across = across.c_str();
     int lineSize{3};
+    // Continue to draw | | and ---- until it fits the correct grid size.
+    // This allows me to potentially create a bigger tic-tac-toe grid later if needed.
     for (int x = 1; x <= lineSize; x++ )
     {
+        // Line, Line, Line, Across until it reaches the last set of squares where you don't want an across.
         if (x != lineSize)
         {
             mvprintw(coord.x, coord.y, c_line);
@@ -94,6 +101,8 @@ void drawGrid()
             refresh();
         }
     }
+    // Add indicators to the square number and make them muted.
+    attron(A_DIM);
     mvprintw(square1.x, square1.y, "1");
     mvprintw(square2.x, square2.y, "2");
     mvprintw(square3.x, square3.y, "3");
@@ -103,5 +112,6 @@ void drawGrid()
     mvprintw(square7.x, square7.y, "7");
     mvprintw(square8.x, square8.y, "8");
     mvprintw(square9.x, square9.y, "9");
+    attroff(A_DIM);
 }
 

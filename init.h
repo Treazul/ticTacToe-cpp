@@ -1,9 +1,11 @@
 #ifndef INIT_H_INCLUDED
 #define INIT_H_INCLUDED
-// Set a global variable for coordinates being exactly 0.
-void startGame();
-void endGame(int x);
 
+void initNcurses();
+void endGame(int x);
+void drawGrid();
+
+// Structs
 struct Coord
 {
     int x;
@@ -22,7 +24,7 @@ struct Players
     int number;
     char symbol;
 };
-void drawGrid();
+
 
 
 #endif // INIT_H_INCLUDED

@@ -274,6 +274,8 @@ void clearScreen()
 }
 int playGame()
 {
+    // Choose the symbol that player 1 is going to use
+    chooseYourSymbol();
     bool exit{false};
     while(!exit)
     {
