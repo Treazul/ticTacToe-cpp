@@ -232,6 +232,7 @@ bool checkOWin()
 
 void chooseYourPosition(Players player, int x)
 {
+    mvprintw(19, 20, "                                     ");
     bool exit{false};
     while(!exit)
     {

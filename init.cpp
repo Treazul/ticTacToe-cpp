@@ -1,10 +1,7 @@
 #include "init.h"
 #include "logic.h"
 #include <ncurses.h>
-#include <unistd.h>
 #include <string>
-#include <chrono>
-#include <thread>
 
 Coord coord = {0, 0};
 Square square1 = {6, 25, 'b'};
@@ -32,16 +29,32 @@ void endGame(int x)
     attron(A_BOLD);
     mvprintw(10, 35, "GAME OVER.");
     if(x == 1)
-        mvprintw(11, 35, "Player 1 is the WINNER");
+        {
+            attron(A_UNDERLINE);
+            mvprintw(11, 35, "Player 1");
+            attroff(A_UNDERLINE);
+            printw(" is the WINNER");
+        }
     else if (x == 2)
-        mvprintw(11, 35, "Player 1 is the WINNER");
+        {
+            attron(A_UNDERLINE);
+            mvprintw(11, 35, "Player 2");
+            attroff(A_UNDERLINE);
+            printw("is the WINNER");
+        }
     else if(x == 3)
         {
             mvprintw(11, 35, "NOBODY WON.");
-            mvprintw(11, 36, "BOO!");
+            attroff(A_BOLD);
+            attron(A_DIM);
+            mvprintw(12, 38, "BOO!");
+            attroff(A_DIM);
         }
     else
+    {
         mvprintw(10, 35, "This message shouldn't ever be seen. What hath thou done?!?");
+        mvprintw(11, 35, "Error code: Whiskey Uniform Tango.");
+    }
     attroff(A_BOLD);
     getch();
     endwin();
@@ -49,10 +62,12 @@ void endGame(int x)
 
 void drawGrid()
 {
+    mvprintw(2, 21, "Would you like to play a game of");
+    mvprintw(3, 30, "Tic Tac Toe?");
     moveToXAndY(5, 21);
-    std::string line  {"         |         |        "};
+    std::string line  {"         |         |         "};
     const char* c_line = line.c_str();
-    std::string across{"----------------------------"};
+    std::string across{"-----------------------------"};
     const char* c_across = across.c_str();
     int lineSize{3};
     for (int x = 1; x <= lineSize; x++ )
