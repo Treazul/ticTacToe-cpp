@@ -1,5 +1,5 @@
 #include "init.h"
-#include "logic.h"
+#include "game.h"
 #include <ncurses.h>
 #include <string>
 
