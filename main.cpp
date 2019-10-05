@@ -1,6 +1,5 @@
 #include "init.h"
 #include "logic.h"
-#include <iostream>
 #include <ncurses.h>
 
 
@@ -10,6 +9,8 @@ int main()
     drawGrid();
     refresh();
     chooseYourSymbol();
-    playGame();
+    int winner;
+    winner = playGame();
+    endGame(winner);
     return 0;
 }

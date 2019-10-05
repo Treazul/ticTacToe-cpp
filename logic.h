@@ -4,7 +4,7 @@
 void moveToXAndY(int x = 0, int y = 0);
 void chooseYourPosition(char symbol);
 void chooseYourSymbol();
-void playGame();
+int playGame();
 void clearScreen();
 
 #endif // LOGIC_H_INCLUDED

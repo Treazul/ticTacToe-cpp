@@ -1,23 +1,20 @@
 #include "init.h"
 #include "ncurses.h"
 #include "logic.h"
-#include <iostream>
-#include <vector>
 
 extern Coord coord;
-extern Coord square1;
-extern Coord square2;
-extern Coord square3;
-extern Coord square4;
-extern Coord square5;
-extern Coord square6;
-extern Coord square7;
-extern Coord square8;
-extern Coord square9;
+extern Square square1;
+extern Square square2;
+extern Square square3;
+extern Square square4;
+extern Square square5;
+extern Square square6;
+extern Square square7;
+extern Square square8;
+extern Square square9;
 extern Players player1;
 extern Players player2;
-const int maxNumMoves{9};
-int movesMade[maxNumMoves] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+int movesMade[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int turn{1};
 
@@ -54,9 +51,9 @@ void chooseYourSymbol()
 
 void positionSquare(int square, char symbol)
 {
-    int exit{0};
+    bool exit{false};
     char* c_symbol = new char(symbol);
-    while (exit == 0)
+    while (!exit)
     {
         switch(square)
         {
@@ -64,64 +61,73 @@ void positionSquare(int square, char symbol)
             {
                 mvprintw(square1.x, square1.y, c_symbol);
                 refresh();
-                ++exit;
+                square1.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 2:
             {
                 mvprintw(square2.x, square2.y, c_symbol);
                 refresh();
-                ++exit;
+                square2.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 3:
             {
                 mvprintw(square3.x, square3.y, c_symbol);
                 refresh();
-                ++exit;
+                square3.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 4:
             {
                 mvprintw(square4.x, square4.y, c_symbol);
                 refresh();
-                ++exit;
+                square4.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 5:
             {
                 mvprintw(square5.x, square5.y, c_symbol);
                 refresh();
-                ++exit;
+                square5.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 6:
             {
                 mvprintw(square6.x, square6.y, c_symbol);
                 refresh();
-                ++exit;
+                square6.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 7:
             {
                 mvprintw(square7.x, square7.y, c_symbol);
                 refresh();
-                ++exit;
+                square7.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 8:
             {
                 mvprintw(square8.x, square8.y, c_symbol);
                 refresh();
-                ++exit;
+                square8.currentSymbol = symbol;
+                exit = true;
                 break;
             }
             case 9:
             {
                 mvprintw(square9.x, square9.y, c_symbol);
                 refresh();
-                ++exit;
-                    break;
+                square9.currentSymbol = symbol;
+                exit = true;
+                break;
             }
             default:
             {
@@ -133,10 +139,101 @@ void positionSquare(int square, char symbol)
         }
     }
 }
+
+bool checkXWin()
+{
+    char s1 = square1.currentSymbol;
+    char s2 = square2.currentSymbol;
+    char s3 = square3.currentSymbol;
+    char s4 = square4.currentSymbol;
+    char s5 = square5.currentSymbol;
+    char s6 = square6.currentSymbol;
+    char s7 = square7.currentSymbol;
+    char s8 = square8.currentSymbol;
+    char s9 = square9.currentSymbol;
+    /*
+    1 2 3
+    4 5 6
+    7 8 9
+    */
+
+    // First Line across
+    if (s1 == 'X' && s2 == 'X' && s3 == 'X')
+        return true;
+    // Second Line across
+    else if (s4 == 'X' && s5 == 'X' && s6 == 'X')
+        return true;
+    // Third Line across
+    else if (s7 == 'X' && s8 == 'X' && s9 == 'X')
+        return true;
+    // First Line vertical
+    else if (s1 == 'X' && s4 == 'X' && s7 == 'X')
+        return true;
+    // Second Line vertical
+    else if (s2 == 'X' && s5 == 'X' && s8 == 'X')
+        return true;
+    // Third Line vertical
+    else if (s3 == 'X' && s6 == 'X' && s9 == 'X')
+        return true;
+    // Diagonal from top left to bottom right
+    else if (s1 == 'X' && s5 == 'X' && s9 == 'X')
+        return true;
+    // Diagonal from top right to bottom left
+    else if (s7 == 'X' && s5 == 'X' && s3 == 'X')
+        return true;
+    else
+        return false;
+}
+
+bool checkOWin()
+{
+    char s1 = square1.currentSymbol;
+    char s2 = square2.currentSymbol;
+    char s3 = square3.currentSymbol;
+    char s4 = square4.currentSymbol;
+    char s5 = square5.currentSymbol;
+    char s6 = square6.currentSymbol;
+    char s7 = square7.currentSymbol;
+    char s8 = square8.currentSymbol;
+    char s9 = square9.currentSymbol;
+    /*
+    1 2 3
+    4 5 6
+    7 8 9
+    */
+
+    // First Line across
+    if (s1 == 'O' && s2 == 'O' && s3 == 'O')
+        return true;
+    // Second Line across
+    else if (s4 == 'O' && s5 == 'O' && s6 == 'O')
+        return true;
+    // Third Line across
+    else if (s7 == 'O' && s8 == 'O' && s9 == 'O')
+        return true;
+    // First Line vertical
+    else if (s1 == 'O' && s4 == 'O' && s7 == 'O')
+        return true;
+    // Second Line vertical
+    else if (s2 == 'O' && s5 == 'O' && s8 == 'O')
+        return true;
+    // Third Line vertical
+    else if (s3 == 'O' && s6 == 'O' && s9 == 'O')
+        return true;
+    // Diagonal from top left to bottom right
+    else if (s1 == 'O' && s5 == 'O' && s9 == 'O')
+        return true;
+    // Diagonal from top right to bottom left
+    else if (s7 == 'O' && s5 == 'O' && s3 == 'O')
+        return true;
+    else
+        return false;
+}
+
 void chooseYourPosition(Players player, int x)
 {
-    int exit{};
-    while(exit == 0)
+    bool exit{false};
+    while(!exit)
     {
         mvprintw(20, 20, "                                           ");
         mvprintw(20, 20, "Choose your Square ");
@@ -155,7 +252,7 @@ void chooseYourPosition(Players player, int x)
             positionSquare(pos, player.symbol);
             movesMade[x] = pos;
             ++turn;
-            ++exit;
+            exit = true;
         }
         else
         {
@@ -174,18 +271,56 @@ void clearScreen()
         refresh();
     }
 }
-void playGame()
+int playGame()
 {
-    while (turn <= 10)
+    bool exit{false};
+    while(!exit)
     {
         if (turn == 1 || turn == 3 || turn == 5 || turn == 7 || turn == 9)
-            chooseYourPosition(player1, turn);
-        else if (turn == 2 || turn == 4 || turn == 6 || turn == 8)
-            chooseYourPosition(player2, turn);
-        else if (turn == 10)
         {
-            ++turn;
-            endGame();
+            chooseYourPosition(player1, turn);
+            if (player1.symbol == 'X')
+            {
+                if (checkXWin())
+                {
+                    exit = true;
+                    return 1;
+                }
+            }
+            else if (player1.symbol == 'O')
+            {
+                if (checkOWin())
+                {
+                     exit = true;
+                    return 1;
+                }
+            }
+        }
+        else if (turn == 2 || turn == 4 || turn == 6 || turn == 8)
+        {
+                chooseYourPosition(player2, turn);
+                if (player2.symbol == 'X')
+                {
+                    if (checkXWin())
+                    {
+                        exit = true;
+                        return 2;
+                    }
+                }
+                else if (player2.symbol == 'O')
+                {
+                    if (checkOWin())
+                    {
+                        exit = true;
+                        return 2;
+                    }
+                }
+        }
+        else if (square1.currentSymbol != 'b' && square2.currentSymbol != 'b' && square3.currentSymbol != 'b' && square4.currentSymbol != 'b' && square5.currentSymbol != 'b' && square6.currentSymbol != 'b' && square7.currentSymbol != 'b' && square8.currentSymbol != 'b' && square9.currentSymbol != 'b' && !checkXWin() && !checkOWin())
+        {
+            exit = true;
+            return 3;
         }
     }
+    return 4;
 }
