@@ -26,7 +26,7 @@ void initNcurses()
 
 void endGame(int x)
 {
-    clearScreen();
+    clear();
     attron(A_BOLD);
     mvprintw(10, 35, "GAME OVER.");
     // Celebrate the winner or none at all if needed.
@@ -66,6 +66,7 @@ void endGame(int x)
 
 void drawGrid()
 {
+    clear();
     mvprintw(2, 21, "Would you like to play a game of");
     mvprintw(3, 30, "Tic Tac Toe?");
     moveToXAndY(5, 21);

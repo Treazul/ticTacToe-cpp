@@ -18,6 +18,8 @@ int movesMade[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 int turn{1};
 
+void mvClearToEOL(int x, int y);
+
 void moveToXAndY(int x, int y)
 {
     coord.x = x;
@@ -28,6 +30,7 @@ void chooseYourSymbol()
 {
     while (!player1.symbol)
     {
+        mvClearToEOL(20, 20);
         mvprintw(20, 20, "What Symbol are you using? X or O: ");
         refresh();
         char symbol{};
@@ -131,7 +134,7 @@ void positionSquare(int square, char symbol)
             }
             default:
             {
-                mvprintw(22, 20, "                                                 ");
+                mvClearToEOL(22, 20);
                 mvprintw(22, 20, "That's not a good location.");
                 refresh();
                 break;
@@ -232,11 +235,11 @@ bool checkOWin()
 
 void chooseYourPosition(Players player, int x)
 {
-    mvprintw(19, 20, "                                     ");
+    mvClearToEOL(19, 20);
     bool exit{false};
     while(!exit)
     {
-        mvprintw(20, 20, "                                           ");
+        mvClearToEOL(20, 20);
         mvprintw(20, 20, "Choose your Square ");
         if (player.number == 1)
         {
@@ -257,21 +260,13 @@ void chooseYourPosition(Players player, int x)
         }
         else
         {
-            mvprintw(19, 20, "                                                 ");
+            mvClearToEOL(19, 20);
             mvprintw(19, 20, "That's not an available square.");
             refresh();
         }
     }
 }
 
-void clearScreen()
-{
-    for (int x = 0; x < 25; x++)
-    {
-        mvprintw(x, 1, "                                                                               ");
-        refresh();
-    }
-}
 int playGame()
 {
     // Choose the symbol that player 1 is going to use
@@ -326,4 +321,9 @@ int playGame()
         }
     }
     return 4;
+}
+// Clear from the current location to the end of line
+void mvClearToEOL(int x, int y)
+{
+    mvprintw(x, y, "                                                                                              ");
 }
