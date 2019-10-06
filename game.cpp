@@ -1,6 +1,6 @@
 #include "init.h"
-#include "ncurses.h"
 #include "game.h"
+#include <ncurses.h>
 
 extern Coord coord;
 extern Square square1;
