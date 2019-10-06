@@ -31,28 +31,34 @@ void endGame(int x)
     mvprintw(10, 35, "GAME OVER.");
     // Celebrate the winner or none at all if needed.
     if(x == 1)
-        {
-            attron(A_UNDERLINE);
-            mvprintw(11, 35, "Player 1");
-            attroff(A_UNDERLINE);
-            printw(" is the WINNER");
-        }
+    {
+        attron(A_UNDERLINE);
+        mvprintw(11, 35, "Player 1");
+        attroff(A_UNDERLINE);
+        printw(" is the WINNER");
+    }
     else if (x == 2)
-        {
-            attron(A_UNDERLINE);
-            mvprintw(11, 35, "Player 2");
-            attroff(A_UNDERLINE);
-            printw("is the WINNER");
-        }
+    {
+        attron(A_UNDERLINE);
+        mvprintw(11, 35, "Player 2");
+        attroff(A_UNDERLINE);
+        printw("is the WINNER");
+    }
     else if(x == 3)
-        {
-            mvprintw(11, 35, "NOBODY WON.");
-            attroff(A_BOLD);
-            attron(A_DIM);
-            mvprintw(12, 38, "BOO!");
-            attroff(A_DIM);
-        }
+    {
+        mvprintw(11, 35, "NOBODY WON.");
+        attroff(A_BOLD);
+        attron(A_DIM);
+        mvprintw(12, 38, "BOO!");
+        attroff(A_DIM);
+    }
     // I don't think this'll ever trigger but it's better safe then sorry.
+    else if(x == 4)
+    {
+        mvClearToEOL(10, 35);
+        mvprintw(10, 20, "Sorry to see you go!");
+        mvprintw(11, 20, "I hope you'll play my game another time.");
+    }
     else
     {
         mvprintw(10, 35, "This message shouldn't ever be seen. What hath thou done?!?");

@@ -320,7 +320,8 @@ int playGame()
             return 3;
         }
     }
-    return 4;
+    // 5 is the error exit, 4 is reserved for quitting naturally from the menu.
+    return 5;
 }
 // Clear from the current location to the end of line
 void mvClearToEOL(int x, int y)

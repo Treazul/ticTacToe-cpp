@@ -5,6 +5,6 @@ void moveToXAndY(int x = 0, int y = 0);
 void chooseYourPosition(char symbol);
 void chooseYourSymbol();
 int playGame();
-void clearScreen();
+void mvClearToEOL(int x, int y);
 
 #endif // GAME_H_INCLUDED

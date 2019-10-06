@@ -37,16 +37,22 @@
 			<Add option="-lncurses" />
 			<Add library="/usr/lib/x86_64-linux-gnu/libncurses.so" />
 		</Linker>
+		<Unit filename="game.cpp" />
+		<Unit filename="game.h" />
 		<Unit filename="init.cpp" />
 		<Unit filename="init.h" />
-		<Unit filename="logic.cpp" />
-		<Unit filename="logic.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="menu.cpp" />
+		<Unit filename="menu.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
 			<lib_finder disable_auto="1" />
-			<debugger />
+			<debugger>
+				<remote_debugging>
+					<options conn_type="0" serial_baud="" />
+				</remote_debugging>
+			</debugger>
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
