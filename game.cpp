@@ -37,13 +37,11 @@ void chooseYourSymbol()
         symbol = getchar();
         if (symbol == 'X' || symbol == 'x')
         {
-            printw("X");
             player1.symbol = 'X';
             player2.symbol = 'O';
         }
         else if (symbol == 'O' || symbol == 'o')
         {
-            printw("O");
             player1.symbol = 'O';
             player2.symbol = 'X';
         }
@@ -154,35 +152,11 @@ bool checkXWin()
     char s7 = square7.currentSymbol;
     char s8 = square8.currentSymbol;
     char s9 = square9.currentSymbol;
-    /*
-    1 2 3
-    4 5 6
-    7 8 9
-    */
 
-    // First Line across
-    if (s1 == 'X' && s2 == 'X' && s3 == 'X')
-        return true;
-    // Second Line across
-    else if (s4 == 'X' && s5 == 'X' && s6 == 'X')
-        return true;
-    // Third Line across
-    else if (s7 == 'X' && s8 == 'X' && s9 == 'X')
-        return true;
-    // First Line vertical
-    else if (s1 == 'X' && s4 == 'X' && s7 == 'X')
-        return true;
-    // Second Line vertical
-    else if (s2 == 'X' && s5 == 'X' && s8 == 'X')
-        return true;
-    // Third Line vertical
-    else if (s3 == 'X' && s6 == 'X' && s9 == 'X')
-        return true;
-    // Diagonal from top left to bottom right
-    else if (s1 == 'X' && s5 == 'X' && s9 == 'X')
-        return true;
-    // Diagonal from top right to bottom left
-    else if (s7 == 'X' && s5 == 'X' && s3 == 'X')
+    if  ((s1 == 'X' && s2 == 'X' && s3 == 'X') || (s4 == 'X' && s5 == 'X' && s6 == 'X') ||
+         (s7 == 'X' && s8 == 'X' && s9 == 'X') || (s1 == 'X' && s4 == 'X' && s7 == 'X') ||
+         (s2 == 'X' && s5 == 'X' && s8 == 'X') || (s3 == 'X' && s6 == 'X' && s9 == 'X') ||
+         (s1 == 'X' && s5 == 'X' && s9 == 'X') || (s7 == 'X' && s5 == 'X' && s3 == 'X'))
         return true;
     else
         return false;
@@ -199,38 +173,13 @@ bool checkOWin()
     char s7 = square7.currentSymbol;
     char s8 = square8.currentSymbol;
     char s9 = square9.currentSymbol;
-    /*
-    1 2 3
-    4 5 6
-    7 8 9
-    */
-
-    // First Line across
-    if (s1 == 'O' && s2 == 'O' && s3 == 'O')
-        return true;
-    // Second Line across
-    else if (s4 == 'O' && s5 == 'O' && s6 == 'O')
-        return true;
-    // Third Line across
-    else if (s7 == 'O' && s8 == 'O' && s9 == 'O')
-        return true;
-    // First Line vertical
-    else if (s1 == 'O' && s4 == 'O' && s7 == 'O')
-        return true;
-    // Second Line vertical
-    else if (s2 == 'O' && s5 == 'O' && s8 == 'O')
-        return true;
-    // Third Line vertical
-    else if (s3 == 'O' && s6 == 'O' && s9 == 'O')
-        return true;
-    // Diagonal from top left to bottom right
-    else if (s1 == 'O' && s5 == 'O' && s9 == 'O')
-        return true;
-    // Diagonal from top right to bottom left
-    else if (s7 == 'O' && s5 == 'O' && s3 == 'O')
-        return true;
+    if  ((s1 == 'O' && s2 == 'O' && s3 == 'O') || (s4 == 'O' && s5 == 'O' && s6 == 'O') ||
+         (s7 == 'O' && s8 == 'O' && s9 == 'O') || (s1 == 'O' && s4 == 'O' && s7 == 'O') ||
+         (s2 == 'O' && s5 == 'O' && s8 == 'O') || (s3 == 'O' && s6 == 'O' && s9 == 'O') ||
+         (s1 == 'O' && s5 == 'O' && s9 == 'O') || (s7 == 'O' && s5 == 'O' && s3 == 'O'))
+         return true;
     else
-        return false;
+         return false;
 }
 
 void chooseYourPosition(Players player, int x)
@@ -250,8 +199,10 @@ void chooseYourPosition(Players player, int x)
         refresh();
         int pos;
         scanw("%d", &pos);
-        if (pos > 0 && pos < 10 && pos != movesMade[0] && pos != movesMade[1] && pos != movesMade[2] && pos != movesMade[3] && pos != movesMade[4] &&
-            pos != movesMade[5] && pos != movesMade[6] && pos != movesMade[7] && pos != movesMade[8])
+        if (pos > 0 && pos < 10 && pos != movesMade[0] && pos != movesMade[1] &&
+            pos != movesMade[2] && pos != movesMade[3] && pos != movesMade[4] &&
+            pos != movesMade[5] && pos != movesMade[6] && pos != movesMade[7] &&
+            pos != movesMade[8])
         {
             positionSquare(pos, player.symbol);
             movesMade[x] = pos;
@@ -282,7 +233,7 @@ int playGame()
                 if (checkXWin())
                 {
                     exit = true;
-                    return 1;
+                    return PLAYER_1;
                 }
             }
             else if (player1.symbol == 'O')
@@ -290,7 +241,7 @@ int playGame()
                 if (checkOWin())
                 {
                      exit = true;
-                    return 1;
+                    return PLAYER_1;
                 }
             }
         }
@@ -302,7 +253,7 @@ int playGame()
                     if (checkXWin())
                     {
                         exit = true;
-                        return 2;
+                        return PLAYER_2;
                     }
                 }
                 else if (player2.symbol == 'O')
@@ -310,18 +261,21 @@ int playGame()
                     if (checkOWin())
                     {
                         exit = true;
-                        return 2;
+                        return PLAYER_2;
                     }
                 }
         }
-        else if (square1.currentSymbol != 'b' && square2.currentSymbol != 'b' && square3.currentSymbol != 'b' && square4.currentSymbol != 'b' && square5.currentSymbol != 'b' && square6.currentSymbol != 'b' && square7.currentSymbol != 'b' && square8.currentSymbol != 'b' && square9.currentSymbol != 'b' && !checkXWin() && !checkOWin())
+        else if (square1.currentSymbol != 'b' && square2.currentSymbol != 'b' &&
+                 square3.currentSymbol != 'b' && square4.currentSymbol != 'b' &&
+                 square5.currentSymbol != 'b' && square6.currentSymbol != 'b' &&
+                 square7.currentSymbol != 'b' && square8.currentSymbol != 'b' &&
+                 square9.currentSymbol != 'b' && !checkXWin() && !checkOWin())
         {
             exit = true;
-            return 3;
+            return DRAW;
         }
     }
-    // 5 is the error exit, 4 is reserved for quitting naturally from the menu.
-    return 5;
+    return ERROR;
 }
 // Clear from the current location to the end of line
 void mvClearToEOL(int x, int y)

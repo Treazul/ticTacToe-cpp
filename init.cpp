@@ -26,43 +26,46 @@ void initNcurses()
 
 void endGame(int x)
 {
+    int xCoord{11};
+    int yCoord{30};
+    int yQuitCoord{20};
     clear();
     attron(A_BOLD);
-    mvprintw(10, 35, "GAME OVER.");
+    mvprintw(xCoord -1, yCoord, "GAME OVER.");
     // Celebrate the winner or none at all if needed.
-    if(x == 1)
+    if(x == PLAYER_1)
     {
         attron(A_UNDERLINE);
-        mvprintw(11, 35, "Player 1");
+        mvprintw(xCoord, yCoord, "Player 1");
         attroff(A_UNDERLINE);
         printw(" is the WINNER");
     }
-    else if (x == 2)
+    else if (x == PLAYER_2)
     {
         attron(A_UNDERLINE);
-        mvprintw(11, 35, "Player 2");
+        mvprintw(xCoord, yCoord, "Player 2");
         attroff(A_UNDERLINE);
         printw("is the WINNER");
     }
-    else if(x == 3)
+    else if(x == DRAW)
     {
-        mvprintw(11, 35, "NOBODY WON.");
+        mvprintw(xCoord, yCoord, "NOBODY WON.");
         attroff(A_BOLD);
         attron(A_DIM);
-        mvprintw(12, 38, "BOO!");
+        mvprintw(xCoord + 1, yCoord+3, "BOO!");
         attroff(A_DIM);
     }
-    // I don't think this'll ever trigger but it's better safe then sorry.
-    else if(x == 4)
+    else if(x == QUIT)
     {
-        mvClearToEOL(10, 35);
-        mvprintw(10, 20, "Sorry to see you go!");
-        mvprintw(11, 20, "I hope you'll play my game another time.");
+        mvClearToEOL(xCoord -1, yCoord);
+        mvprintw(xCoord -1, yQuitCoord, "Sorry to see you go!");
+        mvprintw(xCoord, yQuitCoord, "I hope you'll play my game another time.");
     }
     else
     {
-        mvprintw(10, 35, "This message shouldn't ever be seen. What hath thou done?!?");
-        mvprintw(11, 35, "Error code: Whiskey Uniform Tango.");
+        mvClearToEOL(xCoord -1, yCoord);
+        mvprintw(xCoord -1, yCoord, "This message shouldn't ever be seen. What hath thou done?!?");
+        mvprintw(xCoord, yCoord, "Error code: Whiskey Uniform Tango.");
     }
     attroff(A_BOLD);
     getch();

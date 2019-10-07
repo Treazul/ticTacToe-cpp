@@ -25,6 +25,17 @@ struct Players
     char symbol;
 };
 
+enum WinState
+{
+    PLAYER_1 = 1,
+    PLAYER_2 = 2,
+    DRAW = 3,
+};
+enum GameState
+{
+    QUIT = 4,
+    ERROR = 5,
+};
 
 
 #endif // INIT_H_INCLUDED
