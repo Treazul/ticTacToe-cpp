@@ -4,25 +4,12 @@
 void initNcurses();
 void endGame(int x);
 void drawGrid();
-
-// Structs
-struct Coord
+//enums
+enum Symbol
 {
-    int x;
-    int y;
-};
-
-struct Square
-{
-    int x;
-    int y;
-    char currentSymbol;
-};
-
-struct Players
-{
-    int number;
-    char symbol;
+    NOSYMBOL = -10,
+    SYMBOLX = 1,
+    SYMBOLO = 2,
 };
 
 enum WinState
@@ -36,6 +23,28 @@ enum GameState
     QUIT = 4,
     ERROR = 5,
 };
+
+// Structs
+struct Coord
+{
+    int x;
+    int y;
+};
+
+struct Square
+{
+    int x;
+    int y;
+};
+
+struct Players
+{
+    int number;
+    int symbol;
+};
+
+
+
 
 
 #endif // INIT_H_INCLUDED

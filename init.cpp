@@ -5,15 +5,15 @@
 
 // Initialise the structs for initial coordinates, the centre of the squares and the players
 Coord coord = {0, 0};
-Square square1 = {6, 25, 'b'};
-Square square2 = {6, 35, 'b'};
-Square square3 = {6, 45, 'b'};
-Square square4 = {10, 25, 'b'};
-Square square5 = {10, 35, 'b'};
-Square square6 = {10, 45, 'b'};
-Square square7 = {14, 25, 'b'};
-Square square8 = {14, 35, 'b'};
-Square square9 = {14, 45, 'b'};
+Square square1 = {6, 25};
+Square square2 = {6, 35};
+Square square3 = {6, 45};
+Square square4 = {10, 25};
+Square square5 = {10, 35};
+Square square6 = {10, 45};
+Square square7 = {14, 25};
+Square square8 = {14, 35};
+Square square9 = {14, 45};
 Players player1 = {1, 0};
 Players player2 = {2, 0};
 
