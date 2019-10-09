@@ -16,6 +16,7 @@ extern Square square8;
 extern Square square9;
 extern Players player1;
 extern Players player2;
+// Initialise the board with no symbol, board[0] will serve to count the entire contents of the rest of the board.
 int board[10] = {0, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL};
 
 int turn{1};
@@ -51,7 +52,7 @@ void chooseYourSymbol()
             mvprintw(19, 20, "That's not a symbol that can be used.");
     }
 }
-
+void boardAdd(int square, int playerSymbol);
 void positionSquare(int square, int playerSymbol)
 {
     const char* symbol{};
@@ -68,7 +69,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square1.x, square1.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -76,7 +77,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square2.x, square2.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -84,7 +85,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square3.x, square3.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -92,7 +93,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square4.x, square4.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -100,7 +101,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square5.x, square5.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -108,7 +109,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square6.x, square6.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -116,7 +117,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square7.x, square7.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -124,7 +125,7 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square8.x, square8.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -132,10 +133,11 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square9.x, square9.y, symbol);
                 refresh();
-                board[square] = playerSymbol;
+                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
+            // This shouldn't trigger as invalid position should be handled by chooseYourPosition.
             default:
             {
                 moveToXAndY(22, 20);
@@ -146,6 +148,12 @@ void positionSquare(int square, int playerSymbol)
             }
         }
     }
+}
+
+void boardAdd(int square, int playerSymbol)
+{
+    board[square] = playerSymbol;
+    board[0] += playerSymbol;
 }
 
 bool checkXWin()
@@ -226,13 +234,11 @@ int playGame()
     // Choose the symbol that player 1 is going to use
     chooseYourSymbol();
     bool exit{false};
-    int total{0};
     while(!exit)
     {
         if ((turn % 2) && turn < 10)
         {
             chooseYourPosition(player1);
-            total = board[1] + board[2] + board[3] + board[4] + board[5] + board[6] + board[7] + board[8] + board[9];
             if (player1.symbol == SYMBOLX && checkXWin())
             {
                 exit = true;
@@ -247,7 +253,6 @@ int playGame()
         else if (!(turn % 2) && turn < 10)
         {
             chooseYourPosition(player2);
-            total = board[1] + board[2] + board[3] + board[4] + board[5] + board[6] + board[7] + board[8] + board[9];
             if (player2.symbol == SYMBOLX && checkXWin())
             {
                 exit = true;
@@ -259,7 +264,7 @@ int playGame()
                 return PLAYER_2;
             }
         }
-        else if ((total == 13 || total == 14) && !checkXWin() && !checkOWin())
+        else if ((board[0] == 13 || board[0] == 14) && !checkXWin() && !checkOWin())
         {
             exit = true;
             return DRAW;
