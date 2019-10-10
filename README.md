@@ -19,8 +19,10 @@ Install cygwin
 
 Ensure ncurses is installed in cygwin
 
-run ```g++ *.cpp -o tic-tac-toe -std=c++17 -lncurses``` within the cygwin terminal
+install mingw64-x86_64-gcc-g++ package in cygwin
 
-run ```./tic-tac-toe``` within the cygwin terminal
+run ```x86_64-w64-mingw32-g++ --static *.cpp -o "tic-tac-toe" -std=c++17 -lncurses``` within the cygwin terminal
+
+run the tic-tac-toe.exe in your file-browser.
 
 Done
