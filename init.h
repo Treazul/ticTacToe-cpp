@@ -16,12 +16,13 @@ enum WinState
 {
     PLAYER_1 = 1,
     PLAYER_2 = 2,
-    DRAW = 3,
+    COMPUTER = 3,
+    DRAW = 4,
 };
 enum GameState
 {
-    QUIT = 4,
-    ERROR = 5,
+    QUIT = 5,
+    ERROR = 6,
 };
 
 // Structs
@@ -33,6 +34,7 @@ struct Coord
 
 struct Square
 {
+    int num;
     int x;
     int y;
 };
@@ -42,9 +44,6 @@ struct Players
     int number;
     int symbol;
 };
-
-
-
 
 
 #endif // INIT_H_INCLUDED

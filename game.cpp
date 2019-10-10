@@ -61,6 +61,7 @@ void positionSquare(int square, int playerSymbol)
         symbol = "X";
     else if (playerSymbol == 2)
         symbol = "O";
+    boardAdd(square, playerSymbol);
     while (!exit)
     {
         switch(square)
@@ -69,7 +70,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square1.x, square1.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -77,7 +77,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square2.x, square2.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -85,7 +84,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square3.x, square3.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -93,7 +91,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square4.x, square4.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -101,7 +98,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square5.x, square5.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -109,7 +105,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square6.x, square6.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -117,7 +112,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square7.x, square7.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -125,7 +119,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square8.x, square8.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -133,7 +126,6 @@ void positionSquare(int square, int playerSymbol)
             {
                 mvprintw(square9.x, square9.y, symbol);
                 refresh();
-                boardAdd(square, playerSymbol);
                 exit = true;
                 break;
             }
@@ -156,7 +148,7 @@ void boardAdd(int square, int playerSymbol)
     board[0] += playerSymbol;
 }
 
-bool checkXWin()
+int checkWin()
 {
     int line1{board[1]+board[2]+board[3]};
     int line2{board[4]+board[5]+board[6]};
@@ -169,17 +161,16 @@ bool checkXWin()
 
     if (line1 == 3 || line2 == 3 || line3 == 3 || vert1 == 3 || vert2 == 3 || vert3 == 3 ||
         diag1 == 3 || diag2 == 3)
-        return true;
+        return SYMBOLX;
+    else if (line1 == 6 || line2 == 6 || line3 == 6 || vert1 == 6 || vert2 == 6 || vert3 == 6 ||
+        diag1 == 6 || diag2 == 6)
+        return SYMBOLO;
     else
         return false;
 }
-
+/*
 bool checkOWin()
 {
-    /*
-    I don't like repeating myself but these can't be global with how the code is currently
-    because they will be different every time checkXWin and checkOWin are called.
-    */
     int line1{board[1]+board[2]+board[3]};
     int line2{board[4]+board[5]+board[6]};
     int line3{board[7]+board[8]+board[9]};
@@ -194,7 +185,7 @@ bool checkOWin()
          return true;
     else
          return false;
-}
+}*/
 
 void chooseYourPosition(Players player)
 {
@@ -236,35 +227,32 @@ int playGame()
     bool exit{false};
     while(!exit)
     {
-        if ((turn % 2) && turn < 10)
+        if ((turn % 2) && turn < 10 && !checkWin())
         {
             chooseYourPosition(player1);
-            if (player1.symbol == SYMBOLX && checkXWin())
-            {
-                exit = true;
-                return PLAYER_1;
-            }
-            else if (player1.symbol == SYMBOLO && checkOWin())
-            {
-                exit = true;
-                return PLAYER_1;
-            }
         }
-        else if (!(turn % 2) && turn < 10)
+        else if (!(turn % 2) && turn < 10 && !checkWin())
         {
             chooseYourPosition(player2);
-            if (player2.symbol == SYMBOLX && checkXWin())
+        }
+        else if (checkWin())
+        {
+            if (checkWin() == SYMBOLO)
             {
-                exit = true;
-                return PLAYER_2;
+                if (player1.symbol == SYMBOLO)
+                    return PLAYER_1;
+                else if (player2.symbol == SYMBOLO)
+                    return PLAYER_2;
             }
-            else if (player2.symbol == SYMBOLO && checkOWin())
+            else if (checkWin() == SYMBOLX)
             {
-                exit = true;
-                return PLAYER_2;
+                if (player1.symbol == SYMBOLX)
+                    return PLAYER_1;
+                else if (player2.symbol == SYMBOLX)
+                    return PLAYER_2;
             }
         }
-        else if ((board[0] == 13 || board[0] == 14) && !checkXWin() && !checkOWin())
+        else if ((board[0] == 13 || board[0] == 14) && !checkWin())
         {
             exit = true;
             return DRAW;

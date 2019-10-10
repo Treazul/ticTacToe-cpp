@@ -30,7 +30,7 @@ int main()
             }
         case 3:
             {
-                endGame(4);
+                endGame(QUIT);
                 madeChoice = true;
                 break;
             }
