@@ -7,7 +7,7 @@ Libraries required to compile: ncurses
 
 run ```sudo apt-get install libcurses-dev```
 
-run ```g++ *.cpp -std=c++17 -lncurses```
+run ```g++ *.cpp -o tic-tac-toe -std=c++17 -lncurses```
 
 run ```./tic-tac-toe```
 
