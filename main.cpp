@@ -18,14 +18,17 @@ int main()
         case 1:
             {
                 drawGrid();
-                int winner = playGame();
+                int winner = playGame(HUMAN);
                 endGame(winner);
                 madeChoice = true;
                 break;
             }
         case 2:
             {
-                mvprintw(3, 30, "This isn't implemented yet, sorry");
+                drawGrid();
+                int winner = playGame(NOTHUMAN);
+                endGame(winner);
+                madeChoice = true;
                 break;
             }
         case 3:

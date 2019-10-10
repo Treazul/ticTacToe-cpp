@@ -2,6 +2,8 @@
 #include "game.h"
 #include <ncurses.h>
 #include <string>
+#include <chrono>
+#include <thread>
 
 // Initialise the structs for initial coordinates, the centre of the squares and the players
 Coord coord = {0, 0};
@@ -28,11 +30,12 @@ void endGame(int x)
 {
     moveToXAndY(11, 30);
     int yQuitCoord{20};
-    clear();
     attron(A_BOLD);
     // Celebrate the winner or none at all if needed.
     if(x <= DRAW)
     {
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+        clear();
         mvprintw(coord.x -1, coord.y, "GAME OVER.");
         if(x <= COMPUTER)
         {
@@ -57,14 +60,21 @@ void endGame(int x)
     }
     else if(x == QUIT)
     {
+        clear();
         mvprintw(coord.x -1, yQuitCoord, "Sorry to see you go!");
         mvprintw(coord.x, yQuitCoord, "I hope you'll play my game another time.");
     }
-    else
+    else if(x >= ERROR)
     {
+        clear();
         mvprintw(coord.x -1, coord.y, "A serious error has occurred.");
         mvprintw(coord.x, coord.y, "Please inform the code maintainer as soon as possible");
-        mvprintw(coord.x +1, coord.y, "Quote code: 1435");
+        if (x == ERROR)
+            mvprintw(coord.x +1, coord.y, "Quote code: 1");
+        else if (x == ERROR_DRAW)
+            mvprintw(coord.x +1, coord.y, "Quote code: 2");
+        else if (x == ERROR_COMPUTER_CHOOSE)
+            mvprintw(coord.x +1, coord.y, "Quote code: 3");
     }
     attroff(A_BOLD);
     getch();

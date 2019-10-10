@@ -23,6 +23,14 @@ enum GameState
 {
     QUIT = 5,
     ERROR = 6,
+    ERROR_DRAW = 7,
+    ERROR_COMPUTER_CHOOSE = 8,
+};
+
+enum OpponentState
+{
+    HUMAN,
+    NOTHUMAN,
 };
 
 // Structs

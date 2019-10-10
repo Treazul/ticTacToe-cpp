@@ -1,5 +1,6 @@
 #include "init.h"
 #include "game.h"
+#include "logic.h"
 #include <ncurses.h>
 #include <iostream>
 
@@ -16,6 +17,7 @@ extern Square square8;
 extern Square square9;
 extern Players player1;
 extern Players player2;
+extern Players computer;
 // Initialise the board with no symbol, board[0] will serve to count the entire contents of the rest of the board.
 int board[10] = {0, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL, NOSYMBOL};
 
@@ -29,7 +31,7 @@ void moveToXAndY(int x, int y)
     coord.y = y;
 }
 
-void chooseYourSymbol()
+void chooseYourSymbol(int players)
 {
     while (!player1.symbol)
     {
@@ -41,12 +43,18 @@ void chooseYourSymbol()
         if (symbol == 'X' || symbol == 'x')
         {
             player1.symbol = SYMBOLX;
-            player2.symbol = SYMBOLO;
+            if (players == HUMAN)
+                player2.symbol = SYMBOLO;
+            else if (players == NOTHUMAN)
+                computer.symbol = SYMBOLO;
         }
         else if (symbol == 'O' || symbol == 'o')
         {
             player1.symbol = SYMBOLO;
-            player2.symbol = SYMBOLX;
+            if (players == HUMAN)
+                player2.symbol = SYMBOLX;
+            else if (players == NOTHUMAN)
+                computer.symbol = SYMBOLX;
         }
         else
             mvprintw(19, 20, "That's not a symbol that can be used.");
@@ -57,9 +65,9 @@ void positionSquare(int square, int playerSymbol)
 {
     const char* symbol{};
     bool exit{false};
-    if (playerSymbol == 1)
+    if (playerSymbol == SYMBOLX)
         symbol = "X";
-    else if (playerSymbol == 2)
+    else if (playerSymbol == SYMBOLO)
         symbol = "O";
     boardAdd(square, playerSymbol);
     while (!exit)
@@ -168,24 +176,6 @@ int checkWin()
     else
         return false;
 }
-/*
-bool checkOWin()
-{
-    int line1{board[1]+board[2]+board[3]};
-    int line2{board[4]+board[5]+board[6]};
-    int line3{board[7]+board[8]+board[9]};
-    int vert1{board[1]+board[4]+board[7]};
-    int vert2{board[2]+board[5]+board[8]};
-    int vert3{board[3]+board[6]+board[9]};
-    int diag1{board[1]+board[5]+board[9]};
-    int diag2{board[3]+board[5]+board[7]};
-
-    if (line1 == 6 || line2 == 6 || line3 == 6 || vert1 == 6 || vert2 == 6 || vert3 == 6 ||
-        diag1 == 6 || diag2 == 6)
-         return true;
-    else
-         return false;
-}*/
 
 void chooseYourPosition(Players player)
 {
@@ -220,20 +210,21 @@ void chooseYourPosition(Players player)
     }
 }
 
-int playGame()
+int playGame(int opponent)
 {
     // Choose the symbol that player 1 is going to use
-    chooseYourSymbol();
+    chooseYourSymbol(opponent);
     bool exit{false};
     while(!exit)
     {
         if ((turn % 2) && turn < 10 && !checkWin())
-        {
             chooseYourPosition(player1);
-        }
         else if (!(turn % 2) && turn < 10 && !checkWin())
         {
-            chooseYourPosition(player2);
+            if(opponent == HUMAN)
+                chooseYourPosition(player2);
+            else if (opponent == NOTHUMAN)
+                computerChoosePosition();
         }
         else if (checkWin())
         {
@@ -243,6 +234,8 @@ int playGame()
                     return PLAYER_1;
                 else if (player2.symbol == SYMBOLO)
                     return PLAYER_2;
+                else if (computer.symbol == SYMBOLO)
+                    return COMPUTER;
             }
             else if (checkWin() == SYMBOLX)
             {
@@ -250,6 +243,8 @@ int playGame()
                     return PLAYER_1;
                 else if (player2.symbol == SYMBOLX)
                     return PLAYER_2;
+                else if (computer.symbol == SYMBOLX)
+                    return COMPUTER;
             }
         }
         else if ((board[0] == 13 || board[0] == 14) && !checkWin())
@@ -260,7 +255,7 @@ int playGame()
         else
         {
             exit = true;
-            return ERROR;
+            return ERROR_DRAW;
         }
     }
     return ERROR;

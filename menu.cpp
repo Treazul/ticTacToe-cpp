@@ -20,7 +20,7 @@ int startMenu()
     noecho();
     cbreak();
     keypad(stdscr, true);
-    mvprintw(0, 0, "Use arrow keys to go up and down, enter to select a choice.");
+    mvprintw(1, 2, "Use arrow keys to go up and down, enter to select a choice.");
     printMenu (highlight);
     bool noChoice = true;
     while (noChoice)
@@ -64,8 +64,8 @@ int startMenu()
 }
 void printMenu(int highlight)
 {
-    int x{2};
-    int y{2};
+    int x{25};
+    int y{3};
     box(stdscr, 0, 0);
     for(int i = 0; i < numChoices; i++)
     {
